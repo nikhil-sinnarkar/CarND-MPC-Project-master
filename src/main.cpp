@@ -176,7 +176,7 @@ int main() {
           double Lf = 2.67;
           
           // json msgJson;
-          msgJson["steering_angle"] = vars[0] / (deg2rad(25)*Lf);
+          msgJson["steering_angle"] = - vars[0] / (deg2rad(25)*Lf);
           msgJson["throttle"] = vars[1];
 
           msgJson["next_x"] = next_x_vals;
