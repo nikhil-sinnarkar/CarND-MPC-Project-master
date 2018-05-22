@@ -105,7 +105,7 @@ int main() {
             double shift_y = ptsy[i]-py;
 
             ptsx[i] = (shift_x *cos(0-psi) - shift_y *sin(0-psi));
-            ptsx[i] = (shift_x *sin(0-psi) + shift_y *cos(0-psi));
+            ptsy[i] = (shift_x *sin(0-psi) + shift_y *cos(0-psi));
           }
 
           double* ptrx = &ptsx[0];
@@ -163,8 +163,8 @@ int main() {
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Yellow line
           double poly_inc = 2.5;
-          int num_points = 25;
-          for (int i = 0; i < num_points; ++i)
+          unsigned int num_points = 25;
+          for (unsigned int i = 0; i < num_points; ++i)
           {
             next_x_vals.push_back(poly_inc*i);
             next_y_vals.push_back(polyeval(coeffs, poly_inc*i));
