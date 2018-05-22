@@ -3,6 +3,16 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Rubric points
+The code compiles without error with `cmake` and `make`.
+
+### The Model
+Here we are using a kinematic model for our vehicle. In kinematic model we ignore the tire forces, gravity, mass etc. It is a simplification of dynamic model and it works well with MPC. Using this model we design the state of the vehicle, control inputs and also the update equations. 
+#### State
+
+
+---
+
 ## Dependencies
 
 * cmake >= 3.5
