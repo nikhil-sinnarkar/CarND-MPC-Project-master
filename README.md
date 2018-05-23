@@ -18,8 +18,8 @@ The state of the vehicle is defined by the following 6 variables:
 * `epsi[t]` - orientation error
 #### Control
  The control vector consist of 2 variables- `delta` and `a`.
- `delta` is the steering angle and ranges from -25 degrees to +25 degrees.
- `a` is the acceleration which varies from -1 to +1.
+ * `delta` is the steering angle and ranges from -25 degrees to +25 degrees.
+ * `a` is the acceleration which varies from -1 to +1.
 #### Update equations
 ```
       x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
@@ -30,6 +30,26 @@ The state of the vehicle is defined by the following 6 variables:
       epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * d
 ```
 Here `Lf` is the distance between the car's center of mass and the front wheel. 
+
+### Timestep Length and Elapsed Duration (N & dt)
+I used a hit and trial method for setting up N and dt values. First I set up how many seconds do I want to predict in the future. I figured that 1 sec is good estimate for this. So in order to predict 1 sec in the future I needed to set N & dt such that N * dt = 1. First I kept N as 20 and dt as 0.05 but this increased the number of computations as N was high. I tried different values and finally settled on `N = 10` and `dt = 0.1`.
+
+### Polynomial Fitting and MPC Preprocessing
+The way points are transformed to vehicle's coordinate sysytem and then a 3rd degree polynomial is fitted to it. 
+The transformation is done using the following equations:
+```
+ // shifting the points such that vehicle is at (0,0)
+ double shift_x = ptsx[i]-px;
+ double shift_y = ptsy[i]-py;
+ // rotating the points such that vehicle's heading is 0 degrees
+ ptsx[i] = (shift_x *cos(0-psi) - shift_y *sin(0-psi));
+ ptsy[i] = (shift_x *sin(0-psi) + shift_y *cos(0-psi));
+```
+### Model Predictive Control with Latency
+The code handles a latency of 100 milliseconds. In order to achieve this I have modified the initial state of the vehicle which is passed to the solver. I have taken the initial state and calculated the state of the vehicle 100 milliseconds into the future. This predicted state is then passed to the solver. Now the actuations returned by the solver are for the current time and can be directly applied to the vehicle.
+
+### The vehicle must successfully drive a lap around the track.
+The vehicle successfully drives round the track. I recorded a video of it which you can watch [here](https://www.youtube.com/watch?v=ZiDF9QQ6M6Y).
 
 ---
 
