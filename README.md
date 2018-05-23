@@ -9,7 +9,27 @@ The code compiles without error with `cmake` and `make`.
 ### The Model
 Here we are using a kinematic model for our vehicle. In kinematic model we ignore the tire forces, gravity, mass etc. It is a simplification of dynamic model and it works well with MPC. Using this model we design the state of the vehicle, control inputs and also the update equations. 
 #### State
-
+The state of the vehicle is defined by the following 6 variables:
+* `x[t]` - x coordinate of the vehicle
+* `y[t]` - y coordinate of the vehicle
+* `psi[t]` - heading of the vehicle
+* `v[t]` - velocity
+* `cte[t]` - cross track error
+* `epsi[t]` - orientation error
+#### Control
+ The control vector consist of 2 variables- `delta` and `a`.
+ `delta` is the steering angle and ranges from -25 degrees to +25 degrees.
+ `a` is the acceleration which varies from -1 to +1.
+#### Update equations
+```
+      x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
+      y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
+      psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
+      v_[t+1] = v[t] + a[t] * dt
+      cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
+      epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * d
+```
+Here `Lf` is the distance between the car's center of mass and the front wheel. 
 
 ---
 
