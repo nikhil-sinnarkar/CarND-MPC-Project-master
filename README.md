@@ -21,13 +21,14 @@ The state of the vehicle is defined by the following 6 variables:
  * `delta` is the steering angle and ranges from -25 degrees to +25 degrees.
  * `a` is the acceleration which varies from -1 to +1.
 #### Update equations
+Following are the update equations which are used to predict the next state of the vehicle:
 ```
-      x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
-      y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
-      psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
-      v_[t+1] = v[t] + a[t] * dt
-      cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
-      epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * d
+   x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
+   y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
+   psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
+   v_[t+1] = v[t] + a[t] * dt
+   cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
+   epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * d
 ```
 Here `Lf` is the distance between the car's center of mass and the front wheel. 
 
